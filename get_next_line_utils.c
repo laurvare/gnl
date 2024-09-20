@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pruebaGNL_utils.c                                  :+:      :+:    :+:   */
+/*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: laurvare <laurvare@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 14:12:26 by laurvare          #+#    #+#             */
-/*   Updated: 2024/07/25 21:01:37 by laurvare         ###   ########.fr       */
+/*   Updated: 2024/09/20 16:37:48 by laurvare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pruebaGNL.h"
+#include "get_next_line.h"
 
 void	*ft_calloc(size_t nmemb, size_t size)
 {
@@ -31,7 +31,6 @@ void	*ft_calloc(size_t nmemb, size_t size)
 	return (str);
 }
 
-//SI LO USO
 size_t	ft_strlen(const char *str)
 {
 	size_t	i;
@@ -42,31 +41,7 @@ size_t	ft_strlen(const char *str)
 	return (i);
 }
 
-//NO USAR
-size_t	ft_strlcat(char *dst, const char *src, size_t dstsize)
-{
-	size_t	i;
-	size_t	src_len;
-	size_t	dst_len;
-	size_t	max_chars;
-
-	src_len = ft_strlen(src);
-	dst_len = ft_strlen(dst);
-	i = 0;
-	if (dstsize <= dst_len)
-		return (dstsize + src_len);
-	max_chars = dstsize - dst_len - 1;
-	while (i < src_len && i < max_chars)
-	{
-		dst[dst_len + i] = src[i];
-		i++;
-	}
-	dst[dst_len + i] = '\0';
-	return (src_len + dst_len);
-}
-
-//SI LO USO
-char	*ft_strjoin(char const *s1, char const *s2)
+char	*ft_strjoin(char *s1, char *s2)
 {
 	size_t	i;
 	size_t	j;
@@ -76,7 +51,7 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	total_len = ft_strlen(s1) + ft_strlen(s2);
 	strconcat = malloc (total_len + 1);
 	if (strconcat == NULL)
-		return (NULL);
+		return (free(s1), NULL);
 	i = 0;
 	while (s1[i] != '\0')
 	{
@@ -91,10 +66,10 @@ char	*ft_strjoin(char const *s1, char const *s2)
 		j++;
 	}
 	strconcat[i] = '\0';
+	free(s1);
 	return (strconcat);
 }
 
-//SI LO USO
 char	*ft_strchr(const char *s, int c)
 {
 	int		i;
@@ -111,30 +86,30 @@ char	*ft_strchr(const char *s, int c)
 	return (0);
 }
 
-//ENSEÑO A LIBERAR
-static	void	ft_free_strjoin(char **file, char **buffer)
+char	*ft_substr(char const *s, unsigned int start, size_t len)
 {
-	char	*dst;
-	size_t	size;
-	char	*temp;
+	char	*sub1;
+	size_t	final_len;
 	size_t	i;
+	size_t	orig;
+	size_t	aux;
 
-	size = ft_strlen(*file) + ft_strlen(*buffer) + 1;
-	dst = malloc(size);
 	i = 0;
-	if (!dst)
-		return ;
-	while ((i + 1) < size && size && (*file)[i])
+	orig = ft_strlen(s);
+	if (start > orig)
+		return (ft_calloc (1, 1));
+	aux = ft_strlen(s + start);
+	final_len = len;
+	if (aux < len)
+		final_len = aux;
+	sub1 = ft_calloc (final_len + 1, 1);
+	if (sub1 == NULL)
+		return (NULL);
+	while (i < final_len)
 	{
-		dst[i] = ((*file)[i]);
+		sub1[i] = s[start];
 		i++;
+		start++;
 	}
-	if (size > 0)
-		dst[i] = 0;
-	ft_strlcat(dst, *buffer, size);
-	temp = dst;
-	if (!temp)
-		return ;
-	free(*file);
-	*file = temp;
+	return (sub1);
 }
