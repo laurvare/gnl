@@ -1,0 +1,8 @@
+{
+	"files.associations": {
+		"stdlib.h": "c",
+		"get_next_line.h": "c",
+		"uio.h": "c",
+		"types.h": "c"
+	}
+}

@@ -6,7 +6,7 @@
 /*   By: laurvare <laurvare@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 14:12:26 by laurvare          #+#    #+#             */
-/*   Updated: 2024/09/20 16:37:48 by laurvare         ###   ########.fr       */
+/*   Updated: 2024/09/20 20:52:38 by laurvare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,26 +45,26 @@ char	*ft_strjoin(char *s1, char *s2)
 {
 	size_t	i;
 	size_t	j;
-	size_t	total_len;
 	char	*strconcat;
 
-	total_len = ft_strlen(s1) + ft_strlen(s2);
-	strconcat = malloc (total_len + 1);
+	if (!s1)
+	{
+		s1 = malloc(sizeof(char) + 1);
+		if (!s1)
+			return (NULL);
+		s1[0] = 0;
+	}
+	if(!s1 || !s2)
+		return (NULL);
+	strconcat = malloc (sizeof(char) * (ft_strlen(s1) + ft_strlen(s2)) + 1);
 	if (strconcat == NULL)
 		return (free(s1), NULL);
-	i = 0;
-	while (s1[i] != '\0')
-	{
+	i = -1;
+	while (s1[++i] != '\0')
 		strconcat[i] = s1[i];
-		i++;
-	}
-	j = 0;
-	while (s2[j] != '\0')
-	{
-		strconcat[i] = s2[j];
-		i++;
-		j++;
-	}
+	j = -1;
+	while (s2[++j] != '\0')
+		strconcat[i++] = s2[j];
 	strconcat[i] = '\0';
 	free(s1);
 	return (strconcat);
@@ -75,6 +75,8 @@ char	*ft_strchr(const char *s, int c)
 	int		i;
 
 	i = 0;
+	if (s == NULL)
+		return (NULL);
 	while (s[i])
 	{
 		if (s[i] == (char)c)
@@ -95,6 +97,8 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	size_t	aux;
 
 	i = 0;
+	if (!s)
+		return (NULL);
 	orig = ft_strlen(s);
 	if (start > orig)
 		return (ft_calloc (1, 1));
@@ -106,10 +110,6 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	if (sub1 == NULL)
 		return (NULL);
 	while (i < final_len)
-	{
-		sub1[i] = s[start];
-		i++;
-		start++;
-	}
+		sub1[i++] = s[start++];
 	return (sub1);
 }
