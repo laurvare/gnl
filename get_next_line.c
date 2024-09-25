@@ -6,7 +6,7 @@
 /*   By: laurvare <laurvare@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 13:07:56 by laurvare          #+#    #+#             */
-/*   Updated: 2024/09/20 21:04:13 by laurvare         ###   ########.fr       */
+/*   Updated: 2024/09/25 14:15:08 by laurvare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,23 +17,33 @@ char	*delete_line(char *str)
 	int		i;
 	char	*rest;
 
+	if (!str || !ft_strchr(str, '\n'))
+		return (free(str), NULL);
 	i = (ft_strchr(str, '\n') - (char *)str) + 1;
 	rest = ft_substr(str, i, (ft_strlen(str) - i));
-	free(str);
 	if (!rest)
-		return (NULL);
+		return (free(str), NULL);
+	free(str);
 	str = rest;
 	return (str);
 }
 
 char	*get_line(char *str)
 {
-	int		i;
+	int		l_word;
 	char	*line;
 
-	i = (ft_strchr(str, '\n') - str) + 1;
-	line = ft_substr(str, 0, i);
-	if (!line)
+	l_word = 0;
+	while ((str)[l_word])
+		if ((str)[(l_word)++] == '\n')
+			break ;
+	if (l_word > 0)
+	{
+		line = ft_substr(str, 0, l_word);
+		if (!line)
+			return (NULL);
+	}
+	else
 		return (NULL);
 	return (line);
 }
@@ -43,23 +53,21 @@ char	*read_from_file(int fd, char *str)
 	int		n_bytes;
 	char	*buffer;
 
-	if (fd == -1)
-		return (NULL);
 	buffer = malloc((BUFFER_SIZE + 1) * sizeof(char));
 	if (buffer == NULL)
-		return (NULL);
+		return (free(str), NULL);
 	n_bytes = 1;
-	while (n_bytes != 0 && !ft_strchr(str, '\n'))
+	while (n_bytes > 0 && !ft_strchr(str, '\n'))
 	{
 		n_bytes = read(fd, buffer, BUFFER_SIZE);
+		if (n_bytes < 0)
+			return (free(buffer), free(str), NULL);
 		buffer[n_bytes] = '\0';
 		str = ft_strjoin(str, buffer);
 		if (!str)
 			return (free(buffer), NULL);
 	}
 	free(buffer);
-	if (n_bytes == -1 || n_bytes == 0)
-			return (free(str), NULL);
 	return (str);
 }
 
@@ -75,33 +83,9 @@ char	*get_next_line(int fd)
 		return (NULL);
 	line = get_line(str);
 	if (!line)
-		return (free(str), NULL);
+		return (free(str), (str = NULL), NULL);
 	str = delete_line(str);
 	if (!str)
-		return (free(line), NULL);
+		return (line);
 	return (line);
 }
-
-/*int	main(void)
-{
-	#include <fcntl.h>
-	#include <stdio.h>
-
-	int		fd;
-	char	*line;
-
-	fd = open("GNL.txt", O_RDONLY);
-	line = get_next_line(fd);
-	printf("--------%s", line);
-	free(line);
-	line = get_next_line(fd);
-	printf("--------%s", line);
-	free(line);
-	line = get_next_line(fd);
-	printf("--------%s", line);
-	free(line);
-
-	close (fd);
-	return (0);
-}*/
-

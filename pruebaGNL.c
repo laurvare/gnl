@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   pruebaGNL.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: laurvare <laurvare@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/09/21 15:55:13 by laurvare          #+#    #+#             */
+/*   Updated: 2024/09/25 13:07:10 by laurvare         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <stdio.h>
 #include "get_next_line.h"
 #include <fcntl.h>
@@ -23,16 +35,20 @@
 }*/
 int	main(void)
 {
-	#include <fcntl.h>
-
-	int	fd;
+	int		fd;
 	char	*line;
 
-	fd = open("text.txt", O_RDONLY);
-	while ((line = get_next_line(fd)))
+	fd = open("txt", O_RDONLY);
+	line = get_next_line(fd);
+	while (line)
 	{
 		printf("%s", line);
-		free(line);
+		if (line)
+		{
+			free(line);
+			line = NULL;
+		}
+		line = get_next_line(fd);
 	}
 	close(fd);
 	return (0);

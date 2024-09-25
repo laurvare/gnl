@@ -6,7 +6,7 @@
 /*   By: laurvare <laurvare@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 14:01:29 by laurvare          #+#    #+#             */
-/*   Updated: 2024/09/20 19:27:53 by laurvare         ###   ########.fr       */
+/*   Updated: 2024/09/25 13:21:02 by laurvare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ size_t	ft_strlen(const char *str);
 void	*ft_calloc(size_t nmemb, size_t size);
 char	*ft_substr(char const *s, unsigned int start, size_t len);
 # ifndef BUFFER_SIZE
-# define BUFFER_SIZE 42
-#endif
+#  define BUFFER_SIZE 42
+# endif
+
 #endif
