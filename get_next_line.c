@@ -6,7 +6,7 @@
 /*   By: laurvare <laurvare@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 13:07:56 by laurvare          #+#    #+#             */
-/*   Updated: 2024/09/25 14:15:08 by laurvare         ###   ########.fr       */
+/*   Updated: 2024/09/26 19:11:30 by laurvare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,16 +30,16 @@ char	*delete_line(char *str)
 
 char	*get_line(char *str)
 {
-	int		l_word;
+	int		i;
 	char	*line;
 
-	l_word = 0;
-	while ((str)[l_word])
-		if ((str)[(l_word)++] == '\n')
+	i = 0;
+	while ((str)[i])
+		if ((str)[(i)++] == '\n')
 			break ;
-	if (l_word > 0)
+	if (i > 0)
 	{
-		line = ft_substr(str, 0, l_word);
+		line = ft_substr(str, 0, i);
 		if (!line)
 			return (NULL);
 	}
@@ -85,7 +85,5 @@ char	*get_next_line(int fd)
 	if (!line)
 		return (free(str), (str = NULL), NULL);
 	str = delete_line(str);
-	if (!str)
-		return (line);
 	return (line);
 }

@@ -6,7 +6,7 @@
 /*   By: laurvare <laurvare@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 15:55:13 by laurvare          #+#    #+#             */
-/*   Updated: 2024/09/25 13:07:10 by laurvare         ###   ########.fr       */
+/*   Updated: 2024/09/25 15:24:04 by laurvare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int	main(void)
 	int		fd;
 	char	*line;
 
-	fd = open("txt", O_RDONLY);
+	fd = open("GNL.txt", O_RDONLY);
 	line = get_next_line(fd);
 	while (line)
 	{
